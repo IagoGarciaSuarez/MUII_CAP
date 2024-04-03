@@ -9,7 +9,7 @@ from PIL import Image
 K = 9
 HARTIGAN_THRESHOLD = 50.0
 ITERACIONES_THRESHOLD = 10000000
-FILE_PATH = "pavia.txt"
+FILE_PATH = "./pavia.txt"
 ROWS = 1096
 COLS = 715
 
@@ -39,7 +39,7 @@ def main():
 
     if rank == 0:
         print("---- LOADING DATA ----")
-        pixels = load_data('./pavia.txt')
+        pixels = load_data(FILE_PATH)
         print("---- DATA LOADED ----")
         
         t_init = time.time()
