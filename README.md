@@ -13,7 +13,7 @@ docker build -t hartigan .
 Para ejecutar el contenedor desde el directorio del repositorio:
 
 ```bash
-docker run --rm -it -v $(pwd):/app hartigan
+docker run --rm -it -v $(pwd):/hartigan hartigan
 ```
 
 ## Ejecución del código
@@ -35,5 +35,5 @@ mpiexec --allow-run-as-root -n 4 python3 hartigan_mpi.py
 ### OMP
 
 ```bash
-make && make run
+make
 ```

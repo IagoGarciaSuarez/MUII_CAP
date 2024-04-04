@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-WORKDIR /app
+WORKDIR /hartigan
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -10,8 +10,6 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --upgrade pip 
-
-RUN pip3 install mpi4py numpy Pillow
+RUN pip3 install --upgrade pip && pip3 install mpi4py numpy Pillow matplotlib
 
 RUN export CPLUS_INCLUDE_PATH=/usr/include/opencv4 && export LIBRARY_PATH=/usr/lib

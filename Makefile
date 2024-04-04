@@ -4,13 +4,16 @@ SRC=src/hartigan_omp.cpp
 OBJ=$(SRC:.cpp=.o)
 EXEC=hartigan_omp
 
-all: $(EXEC)
+all: clean $(EXEC) run
 
 $(EXEC): $(OBJ)
 	$(CXX) -o $@ $^ $(CXXFLAGS)
 
 %.o: %.cpp
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
+
+run:
+	./$(EXEC)
 
 clean:
 	rm -f $(OBJ) $(EXEC)

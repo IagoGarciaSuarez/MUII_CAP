@@ -1,3 +1,5 @@
 pavia.txt
 *.o
 .vscode
+.DS_Store
+hartigan_omp
