@@ -1,7 +1,5 @@
 from mpi4py import MPI
 import numpy as np
-import sys
-import os
 import time
 from PIL import Image
 
@@ -20,7 +18,7 @@ COLS = 715
 def load_data(file_path):
     data = np.loadtxt(file_path, delimiter=",")
     data_array = np.array(data)
-    matrix = np.reshape(data_array, (ROWS * COLS, 102))
+    matrix = np.reshape(data_array, (ROWS * COLS, 102)) # 783640
     pixels = matrix.astype(np.float32)
     return pixels
 
@@ -32,12 +30,16 @@ def main():
     comm = MPI.COMM_WORLD
     rank = comm.Get_rank()
     size = comm.Get_size()
+
+    if size not in [4, 8]:
+        print("Error: Es necesario poner 4 u 8 cores.")
+        return
+    
     if rank == 0:
         t_init = None
         t_end = None
-        t_total = 0
+        t_total = None
 
-    if rank == 0:
         print("---- LOADING DATA ----")
         pixels = load_data(FILE_PATH)
         print("---- DATA LOADED ----")
@@ -46,30 +48,24 @@ def main():
 
         segment_size = pixels.shape[0] // size
         segmentos_pixels = [pixels[i*segment_size:(i+1)*segment_size] for i in range(size)]
-
         centroides = []
-        # Cada proceso podría hacer las asignaciones y centroides, aumentado el grado de paralelizacion
         asignaciones = np.random.randint(0, K, size=(ROWS * COLS))
+        segmentos_asignaciones = [asignaciones[i*segment_size:(i+1)*segment_size] for i in range(size)]
         for i in range(K):
             centroides.append(np.mean(pixels[asignaciones == i], axis = 0))
-
-        segmentos_asignaciones = np.array_split(asignaciones, size)
     else:
         segmentos_pixels = None
         centroides = None
         segmentos_asignaciones = None
-        asignaciones_completas = None
+        asignaciones_recibidas = None
 
-    centroides = comm.bcast(centroides, root=0)
     pixeles_recibidos = comm.scatter(segmentos_pixels, root=0)
     asignaciones_recibidas = comm.scatter(segmentos_asignaciones, root=0)
+    centroides = comm.bcast(centroides, root=0)
     
-    iteraciones = 0
     while 1:
-        iteraciones +=1
         centroides_anterior = centroides.copy()
         
-
         # Calculamos para cada pixel la distancia a cada centroide y obtenemos
         # el índice de la menor distancia. Este índice corresponde al número del
         # cluster al que deben ser asignados, así que se asigna a él.
@@ -94,19 +90,16 @@ def main():
         centroides = None
         if rank == 0:
             centroides = [c/size for c in centroides_suma]
-        if maxDelta > HARTIGAN_THRESHOLD or iteraciones >= ITERACIONES_THRESHOLD:
+        if maxDelta > HARTIGAN_THRESHOLD:
             break
         else:
             MPI.Barrier()
             centroides = comm.bcast(centroides, root=0)
 
     asignaciones_completas = comm.gather(asignaciones_recibidas, root=0)
-    # centroides_suma = comm.reduce(centroides, op=MPI.SUM, root=0)
+
     if rank == 0:
         asignaciones_flatten = np.concatenate(asignaciones_completas)
-        print(f"Tamaño de asignaciones_completas: {asignaciones_flatten}")
-        # asignaciones_reconstruidas = [asignacion for sublist in asignaciones_completas for asignacion in sublist]
-        # centroides_media = [i/size for i in centroides_suma]
         t_end = time.time()
         t_total = t_end - t_init
         print(f"K = {K}\tTiempo de ejecución = {t_total} segs ")
@@ -136,7 +129,7 @@ def main():
         image = Image.fromarray(result_image)
 
         # Guardar la imagen en un archivo
-        image.save('imagen.jpeg')
+        image.save(f'results/hartigan_mpi_k_{K}.jpeg')
 
     MPI.Finalize()
 

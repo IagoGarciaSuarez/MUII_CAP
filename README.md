@@ -1,25 +1,38 @@
 # Hartigan Dockerizado
 
-## MPI
-
-### Build
+## Build
 
 Para construir la imagen:
 
 ```bash
-docker build -f mpi.dockerfile -t hartigan-mpi .
+docker build -t hartigan .
 ```
 
-### Run
+## Run
 
 Para ejecutar el contenedor desde el directorio del repositorio:
 
 ```bash
-docker run --rm -it -v $(pwd):/app hartigan-mpi
+docker run --rm -it -v $(pwd):/app hartigan
 ```
 
-### Ejecución del código
+## Ejecución del código
+
+En el código, modificar la ruta del archivo para apuntar a pavia.txt, o situar el archivo en el directorio del repositorio. 
+
+### Secuencial
 
 ```bash
-mpiexec --allow-run-as-root -n 8 python3 hartigan_mpi.py
+python3 hartigan_seq.py
+```
+
+### MPI
+
+```bash
+mpiexec --allow-run-as-root -n 4 python3 hartigan_mpi.py
+```
+
+### OMP
+
+```bash
 ```
