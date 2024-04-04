@@ -13,3 +13,5 @@ RUN apt-get update && \
 RUN pip3 install --upgrade pip 
 
 RUN pip3 install mpi4py numpy Pillow
+
+RUN export CPLUS_INCLUDE_PATH=/usr/include/opencv4 && export LIBRARY_PATH=/usr/lib
