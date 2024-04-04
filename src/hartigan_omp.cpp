@@ -8,9 +8,9 @@
 #include <omp.h> 
 #include <opencv2/opencv.hpp>
 
-const std::string FILE_PATH = "./pavia.txt";
+const std::string FILE_PATH = "pavia.txt";
 const float HARTIGAN_THRESHOLD = 50.0;
-const int K = 9;
+const int K = 3;
 
 Eigen::MatrixXf load_data(const std::string& file_path) {
     std::ifstream file(file_path);
@@ -43,10 +43,12 @@ float distancia_cuadrada(const Eigen::VectorXf& p, const Eigen::VectorXf& c) {
 }
 
 int main() {
+    std::cout << "========== OMP ==========\n";
     omp_set_num_threads(4);
     try {
         Eigen::MatrixXf data = load_data(FILE_PATH);
         std::cout << "----- Datos cargados -----\n";
+        std::cout << "Calculando...\n";
 
         double start = omp_get_wtime();
 

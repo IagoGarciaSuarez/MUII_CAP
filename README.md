@@ -20,20 +20,35 @@ docker run --rm -it -v $(pwd):/hartigan hartigan
 
 En el código, modificar la ruta del archivo para apuntar a pavia.txt, o situar el archivo en el directorio del repositorio. 
 
+Es necesario modificar también K en la constante global según se desee.
+
+### Todos
+```bash
+make
+```
+
 ### Secuencial
 
 ```bash
-python3 hartigan_seq.py
+make seq
 ```
 
 ### MPI
 
 ```bash
-mpiexec --allow-run-as-root -n 4 python3 hartigan_mpi.py
+make mpi
 ```
 
 ### OMP
 
 ```bash
-make
+make omp
+```
+
+## Graficar rendimiento
+
+En el archivo plot_performance.py modificar las listas con los tiempos obtenidos y ejecutarlo con
+
+```bash
+python3 plot_performance.py
 ```

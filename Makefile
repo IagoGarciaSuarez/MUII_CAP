@@ -4,7 +4,16 @@ SRC=src/hartigan_omp.cpp
 OBJ=$(SRC:.cpp=.o)
 EXEC=hartigan_omp
 
-all: clean $(EXEC) run
+all: clean seq mpi $(EXEC) run
+
+seq:
+	python3 src/hartigan_seq.py
+
+mpi:
+	mpiexec --allow-run-as-root -n 4 python3 src/hartigan_mpi.py
+
+omp: 
+	make $(EXEC) && make run
 
 $(EXEC): $(OBJ)
 	$(CXX) -o $@ $^ $(CXXFLAGS)

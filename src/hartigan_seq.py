@@ -2,10 +2,10 @@ import numpy as np
 import time
 from PIL import Image
 
-K = 9
+K = 3
 HARTIGAN_THRESHOLD = 50.0
 ITERACIONES_THRESHOLD = 10000000
-FILE_PATH = "../pavia.txt"
+FILE_PATH = "pavia.txt"
 ROWS = 1096
 COLS = 715
 
@@ -22,9 +22,12 @@ def distancia_cuadrada(v1, v2):
     return np.sum((np.array(v1) - np.array(v2)) ** 2)
 
 def main():
+    print("========== SECUENCIAL ==========")
+
     print(f"---- LOADING DATA FROM {FILE_PATH} ----")
     pixels = load_data(FILE_PATH)
     print(f"---- {FILE_PATH} LOADED ----")
+    print("Calculando...")
     
     t_init = time.time()
     asignaciones = np.random.randint(0, K, size=(ROWS * COLS))
@@ -84,7 +87,7 @@ def main():
     image = Image.fromarray(result_image)
 
     # Guardar la imagen en un archivo
-    image.save(f'../results/hartigan_seq_{K}.jpeg')
+    image.save(f'results/hartigan_seq_{K}.jpeg')
 
 
     return t_total

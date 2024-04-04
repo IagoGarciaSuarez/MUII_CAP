@@ -3,18 +3,15 @@ import numpy as np
 import time
 from PIL import Image
 
-
-K = 9
+K = 3
 HARTIGAN_THRESHOLD = 50.0
 ITERACIONES_THRESHOLD = 10000000
-FILE_PATH = "./pavia.txt"
+FILE_PATH = "pavia.txt"
 ROWS = 1096
 COLS = 715
 
-# mpiexec --allow-run-as-root -n 8 python3 hartigan_mpi.py
 # con 8 procesos da a 97955 elementos por proceso
 
-# Función para cargar los datos desde un archivo
 def load_data(file_path):
     data = np.loadtxt(file_path, delimiter=",")
     data_array = np.array(data)
@@ -22,7 +19,6 @@ def load_data(file_path):
     pixels = matrix.astype(np.float32)
     return pixels
 
-# Función para calcular la distancia cuadrada entre dos vectores
 def distancia_cuadrada(v1, v2):
     return np.sum((np.array(v1) - np.array(v2)) ** 2)
 
@@ -31,6 +27,9 @@ def main():
     rank = comm.Get_rank()
     size = comm.Get_size()
 
+    if rank == 0:
+        print("========== MPI ==========")
+        
     if size not in [4, 8]:
         print("Error: Es necesario poner 4 u 8 cores.")
         return
@@ -43,6 +42,7 @@ def main():
         print("---- LOADING DATA ----")
         pixels = load_data(FILE_PATH)
         print("---- DATA LOADED ----")
+        print("Calculando...")
         
         t_init = time.time()
 
@@ -129,7 +129,7 @@ def main():
         image = Image.fromarray(result_image)
 
         # Guardar la imagen en un archivo
-        image.save(f'../results/hartigan_mpi_k_{K}.jpeg')
+        image.save(f'results/hartigan_mpi_k_{K}.jpeg')
 
     MPI.Finalize()
 
