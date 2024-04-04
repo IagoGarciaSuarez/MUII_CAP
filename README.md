@@ -35,4 +35,5 @@ mpiexec --allow-run-as-root -n 4 python3 hartigan_mpi.py
 ### OMP
 
 ```bash
+make && make run
 ```

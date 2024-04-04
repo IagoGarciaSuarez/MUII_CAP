@@ -5,7 +5,7 @@ from PIL import Image
 K = 9
 HARTIGAN_THRESHOLD = 50.0
 ITERACIONES_THRESHOLD = 10000000
-FILE_PATH = "./pavia.txt"
+FILE_PATH = "../pavia.txt"
 ROWS = 1096
 COLS = 715
 
@@ -84,7 +84,7 @@ def main():
     image = Image.fromarray(result_image)
 
     # Guardar la imagen en un archivo
-    image.save(f'results/hartigan_seq_{K}.jpeg')
+    image.save(f'../results/hartigan_seq_{K}.jpeg')
 
 
     return t_total

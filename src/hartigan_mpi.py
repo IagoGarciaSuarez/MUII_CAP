@@ -129,7 +129,7 @@ def main():
         image = Image.fromarray(result_image)
 
         # Guardar la imagen en un archivo
-        image.save(f'results/hartigan_mpi_k_{K}.jpeg')
+        image.save(f'../results/hartigan_mpi_k_{K}.jpeg')
 
     MPI.Finalize()
 
