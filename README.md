@@ -4,7 +4,7 @@
 
 Para hacer pull de la imagen:
 
-- Para Windows/Linux/MacOS Intel
+- Para Linux/MacOS Intel
 
 ```bash
 docker pull iagogarsu/hartigan-kmeans:amd
