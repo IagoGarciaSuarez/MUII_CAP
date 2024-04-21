@@ -1,16 +1,22 @@
 # Hartigan Dockerizado
 
-## Pull
+## Pull o Build
 
 Para hacer pull de la imagen:
+
+- Para Windows/Linux/MacOS Intel
+
+```bash
+docker pull meninodockerino/hartigan-kmeans
+```
+
+- Para MacOS Silicon
 
 ```bash
 docker pull iagogarsu/hartigan-kmeans
 ```
 
-## Build
-
-Para construir la imagen:
+O en caso de que se prefiera hacer la build:
 
 ```bash
 docker build -t hartigan-kmeans .
@@ -21,7 +27,7 @@ docker build -t hartigan-kmeans .
 Para ejecutar el contenedor desde el directorio del repositorio:
 
 ```bash
-docker run --rm -it -v $(pwd):/hartigan iagogarsu/hartigan-kmeans
+docker run --rm -it -v $(pwd):/hartigan [iagogarsu/hartigan-kmeans | meninodockerino/hartigan-kmeans]
 ```
 
 o si se hizo build:
