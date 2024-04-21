@@ -1,11 +1,19 @@
 # Hartigan Dockerizado
 
+## Pull
+
+Para hacer pull de la imagen:
+
+```bash
+docker pull iagogarsu/hartigan-kmeans
+```
+
 ## Build
 
 Para construir la imagen:
 
 ```bash
-docker build -t hartigan .
+docker build -t hartigan-kmeans .
 ```
 
 ## Run
@@ -13,7 +21,13 @@ docker build -t hartigan .
 Para ejecutar el contenedor desde el directorio del repositorio:
 
 ```bash
-docker run --rm -it -v $(pwd):/hartigan hartigan
+docker run --rm -it -v $(pwd):/hartigan iagogarsu/hartigan-kmeans
+```
+
+o si se hizo build:
+
+```bash
+docker run --rm -it -v $(pwd):/hartigan hartigan-kmeans
 ```
 
 ## Ejecución del código
