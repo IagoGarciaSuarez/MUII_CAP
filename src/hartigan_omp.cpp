@@ -10,7 +10,7 @@
 
 const std::string FILE_PATH = "pavia.txt";
 const float HARTIGAN_THRESHOLD = 50.0;
-const int K = 3;
+const int K = 9;
 
 Eigen::MatrixXf load_data(const std::string& file_path) {
     std::ifstream file(file_path);
@@ -90,6 +90,7 @@ int main() {
         while (true) {
             auto centroides_anterior = centroides;
 
+            #pragma omp parallel for
             for (int i = 0; i < data.rows(); ++i) {
                 float min_dist = std::numeric_limits<float>::max();
                 int min_dist_idx = -1;
@@ -105,6 +106,7 @@ int main() {
 
             float inercia_anterior = 0.0;
             float inercia_actual = 0.0;
+            #pragma omp parallel for reduction(+:inercia_anterior, inercia_actual)
             for (int i = 0; i < data.rows(); ++i) {
                 inercia_anterior += distancia_cuadrada(data.row(i), centroides_anterior[asignaciones[i]]);
                 inercia_actual += distancia_cuadrada(data.row(i), centroides[asignaciones[i]]);
