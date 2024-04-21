@@ -7,13 +7,13 @@ Para hacer pull de la imagen:
 - Para Windows/Linux/MacOS Intel
 
 ```bash
-docker pull meninodockerino/hartigan-kmeans
+docker pull iagogarsu/hartigan-kmeans:amd
 ```
 
 - Para MacOS Silicon
 
 ```bash
-docker pull iagogarsu/hartigan-kmeans
+docker pull iagogarsu/hartigan-kmeans:arm
 ```
 
 O en caso de que se prefiera hacer la build:
@@ -24,10 +24,10 @@ docker build -t hartigan-kmeans .
 
 ## Run
 
-Para ejecutar el contenedor desde el directorio del repositorio:
+Para ejecutar el contenedor desde el directorio del repositorio tras:
 
 ```bash
-docker run --rm -it -v $(pwd):/hartigan [iagogarsu/hartigan-kmeans | meninodockerino/hartigan-kmeans]
+docker run --rm -it -v $(pwd):/hartigan [iagogarsu/hartigan-kmeans:amd | iagogarsu/hartigan-kmeans:arm]
 ```
 
 o si se hizo build:
