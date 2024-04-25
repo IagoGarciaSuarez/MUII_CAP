@@ -44,7 +44,7 @@ float distancia_cuadrada(const Eigen::VectorXf& p, const Eigen::VectorXf& c) {
 
 int main() {
     std::cout << "========== OMP ==========\n";
-    omp_set_num_threads(4);
+    omp_set_num_threads(6);
     try {
         Eigen::MatrixXf data = load_data(FILE_PATH);
         std::cout << "----- Datos cargados -----\n";
